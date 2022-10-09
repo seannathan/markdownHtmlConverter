@@ -12,22 +12,26 @@ import java.util.*;
  */
 public class MDReader implements Reader {
 
-    private List<String> lines = new ArrayList<>();
+    private List<String> lines;
     private BufferedReader reader = null;
     private String file;
 
     public MDReader(String path) {
+
         file = path;
+        lines = read(file);
     }
 
     @Override
-    public List<String> read(String path) throws IOException {
+    public List<String> read(String path) {
         List<String> readList = new ArrayList<String>();
         if(path.endsWith(".md")) {
             try {
+                System.out.println("Reading file.");
                 reader = new BufferedReader(new FileReader(path));
                 String str;
                 while ((str = reader.readLine()) != null) {
+                    System.out.println(str);
                     readList.add(str);
                 }
                 reader.close();
@@ -37,7 +41,7 @@ public class MDReader implements Reader {
                 e.printStackTrace();
             }
         } else {
-            throw new IOException("File is not a markdown file.");
+            System.out.println("The file is not a markdown file.");
         }
 
         return readList;

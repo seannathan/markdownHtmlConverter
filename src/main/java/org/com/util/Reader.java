@@ -5,7 +5,7 @@ import java.util.*;
 
 public interface Reader {
 
-    List<String> read(String path) throws IOException;
+    List<String> read(String path);
     List<String> getLines();
 
 }
