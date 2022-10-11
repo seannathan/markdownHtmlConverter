@@ -20,11 +20,17 @@ public class MDRender implements Render {
     private static final Pattern PATTERN_LINK = Pattern.compile(REGEX_LINK);
     private static final Pattern PATTERN_HEADER = Pattern.compile(REGEX_HEADER);
     public MDRender(String path) {
-        System.out.println("About to read file");
         reader = new MDReader(path);
         data = reader.getLines();
     }
 
+    /**
+     * Method that creates a list of node objects from the markdown
+     * data that gets read from the input md file. Checks for specific
+     * conditions when creating parent and child nodes.
+     *
+     * @return List of Nodes
+     */
     @Override
     public List<Node> render() {
 
@@ -35,16 +41,18 @@ public class MDRender implements Render {
             Node current = checkLine(line);
             int contentStart = 0;
             if(current == null) {
-                //create paragraph
-            } else {
-                //if null or link, add node
-                if(current.getType() == NodeType.NULL || current.getType() == NodeType.LINK) {
-                    mdNodes.add(current);
-                    continue;
-                } else if(current.getType() == NodeType.HEADER) {
-                    contentStart = current.getLevel() + 1;
-                }
+                current = generateParagraphNode();
+                System.out.println("Found paragraph");
+                System.out.println("Node type is: " + current.getType());
             }
+            //if null or link, add node
+            if(current.getType() == NodeType.NULL || current.getType() == NodeType.LINK) {
+                mdNodes.add(current);
+                continue;
+            } else if(current.getType() == NodeType.HEADER) {
+                contentStart = current.getLevel() + 1;
+            }
+
 
             List<Node> children = findChildren(line.substring(contentStart, line.length()));
             for(Node child : children) {
@@ -54,19 +62,24 @@ public class MDRender implements Render {
 
         }
 
+        mdNodes = linkParagraphNodes();
+
         return mdNodes;
 
 
     }
 
     /**
+     * Method to go through the rendered nodes and link consecutive
+     * text nodes to each other for proper paragraph html generation.
      *
-     * @return new list of nodes with all consecutive paragraph nodes linked
+     * @return List of nodes with all consecutive paragraph nodes linked
      */
     public List<Node> linkParagraphNodes() {
         int currentIndex = 0;
         Node current = null;
         List<Node> newNodes = new ArrayList<>();
+        //Loop over all of the nodes and combine consecutive text nodes
         while(currentIndex < mdNodes.size()) {
             if(mdNodes.get(currentIndex).getType() != NodeType.PARAGRAPH) {
                 if (current != null) {
@@ -76,9 +89,7 @@ public class MDRender implements Render {
                 newNodes.add(mdNodes.get(currentIndex));
             } else {
                 if(current != null) {
-                    List<Node> children = current.getChildren();
-                    children.addAll(mdNodes.get(currentIndex).getChildren());
-                    current.setChildren(children);
+                    current.getChildren().addAll(mdNodes.get(currentIndex).getChildren());
 
                 } else {
                     current = mdNodes.get(currentIndex);
@@ -128,6 +139,13 @@ public class MDRender implements Render {
         return nodeList;
     }
 
+    /**
+     * Checks a line for the 3 possible parent node start cases that
+     * aren't null node (br, h, a).
+     *
+     * @param line
+     * @return Node
+     */
     public Node checkLine(String line) {
         Node node = checkBlank(line);
         if(node != null) {
@@ -148,7 +166,7 @@ public class MDRender implements Render {
     /**
      *
      * @param line
-     * @return
+     * @return Link node or null node
      */
     public Node checkLink(String line) {
         Matcher m = PATTERN_LINK.matcher(line);
@@ -167,6 +185,8 @@ public class MDRender implements Render {
     }
 
     /**
+     * Checks if the line has a header pattern and returns
+     * a header node at the appropriate level if found.
      *
      * @param line
      * @return Node of type Header
@@ -176,6 +196,9 @@ public class MDRender implements Render {
         Matcher m = PATTERN_HEADER.matcher(line);
 
         while(m.find()) {
+            System.out.println("Found Header");
+            System.out.println("The start is: " + m.start());
+            System.out.println("The end is: " + m.end());
             if(m.start() == 0 && m.end() - m.start() <= COUNT_HEADER_MAX) {
                 return new HeaderNode(NodeType.HEADER, m.end() - m.start());
             }
@@ -186,6 +209,13 @@ public class MDRender implements Render {
 
     }
 
+    /**
+     * Checks if a line is empty and if it
+     * is, creates and returns a null node
+     *
+     * @param line
+     * @return Null node
+     */
     private NullNode checkBlank(String line) {
         if(line.trim().length() == 0) {
             return new NullNode(NodeType.NULL);
@@ -194,6 +224,7 @@ public class MDRender implements Render {
     }
 
     /**
+     * Creates a paragraph node
      *
      * @return Node of type Paragraph
      */
@@ -202,14 +233,16 @@ public class MDRender implements Render {
     }
 
     /**
+     * Generates a link node, which is a link node
+     * that has a child node with the link text
      *
      * @param link
-     * @param name
+     * @param text
      * @return Node of type Link
      */
-    private LinkNode generateLinkNode(String link, String name) {
+    private LinkNode generateLinkNode(String link, String text) {
         LinkNode node = new LinkNode(NodeType.LINK, link);
-        TextNode linkText = new TextNode(NodeType.TEXT, name);
+        TextNode linkText = new TextNode(NodeType.TEXT, text);
         node.addChild(linkText);
         return node;
 

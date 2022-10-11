@@ -8,7 +8,8 @@ import java.util.*;
 
 
 /**
- * Class that par
+ * Class that parses the .md file and reads
+ * the data into a list of lines
  */
 public class MDReader implements Reader {
 
@@ -27,7 +28,6 @@ public class MDReader implements Reader {
         List<String> readList = new ArrayList<String>();
         if(path.endsWith(".md")) {
             try {
-                System.out.println("Reading file.");
                 reader = new BufferedReader(new FileReader(path));
                 String str;
                 while ((str = reader.readLine()) != null) {

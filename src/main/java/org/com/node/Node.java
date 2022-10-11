@@ -2,6 +2,9 @@ package org.com.node;
 
 import java.util.*;
 
+/**
+ * Generalized node class
+ */
 public abstract class Node {
 
     private NodeType type;
@@ -9,18 +12,19 @@ public abstract class Node {
     private String text;
     private int level;
 
-//    public Node(NodeType t) {
-//        this.type = t;
-//    }
-//
-//    public Node(NodeType t, String line) {
-//        this.type = t;
-//        this.text = line;
-//    }
+    public Node(NodeType t) {
+        this.type = t;
+    }
 
-//    public Node() {
-//
-//    }
+    public Node(NodeType t, String line) {
+        this.type = t;
+        this.text = line;
+    }
+
+    public Node(NodeType t, int level) {
+        this.type = t;
+        this.level = level;
+    }
 
     public List<Node> addChild(Node child) {
         children.add(child);

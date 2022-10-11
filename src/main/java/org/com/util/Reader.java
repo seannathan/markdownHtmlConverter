@@ -1,6 +1,5 @@
 package org.com.util;
 
-import java.io.IOException;
 import java.util.*;
 
 public interface Reader {
