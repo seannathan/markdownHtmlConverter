@@ -103,8 +103,7 @@ public class MDRender implements Render {
     }
 
     /**
-     * Method that looks for a pattern match for a link element and generates a
-     * list of parent nodes
+     * Method that breaks a line into link and text nodes
      *
      * @param line
      * @return List of Node
@@ -161,6 +160,8 @@ public class MDRender implements Render {
     }
 
     /**
+     *Checks if the line starts with a link pattern and returns
+     * a link node
      *
      * @param line
      * @return Link node or null node
@@ -182,7 +183,7 @@ public class MDRender implements Render {
     }
 
     /**
-     * Checks if the line has a header pattern and returns
+     * Checks if the line starts with a header pattern and returns
      * a header node at the appropriate level if found.
      *
      * @param line
