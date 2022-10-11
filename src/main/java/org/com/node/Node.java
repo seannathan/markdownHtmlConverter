@@ -35,15 +35,11 @@ public abstract class Node {
         return this.type;
     }
 
-    public void setChildren(List<Node> children) { this.children = children; }
-
     public List<Node> getChildren() {
         return this.children;
     }
 
     public int getLevel() {return this.level;}
-
-    public void setText(String text) { this.text = text; }
 
     public String getText() { return this.text; }
 
