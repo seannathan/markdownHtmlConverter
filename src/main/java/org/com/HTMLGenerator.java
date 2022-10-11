@@ -17,7 +17,7 @@ import org.apache.commons.io.FileUtils;
 public class HTMLGenerator {
     private List<Node> nodes;
     private Document doc = Jsoup.parse("<html></html>");
-    private static Map<Integer, String> MAP_HEADER = new HashMap<Integer, String>(){{
+    private static final Map<Integer, String> MAP_HEADER = new HashMap<Integer, String>(){{
        put(1, "h1");
        put(2, "h2");
        put(3, "h3");
@@ -93,7 +93,7 @@ public class HTMLGenerator {
                 StringBuilder sb = new StringBuilder();
 
                 while(i < size && (children.get(i).getType() == NodeType.TEXT)) {
-                    sb.append(children.get(i).getText());
+                    sb.append(children.get(i).getText()).append(" ");
                     i++;
                 }
 
@@ -128,6 +128,13 @@ public class HTMLGenerator {
                         children.get(i).getType() == NodeType.TEXT &&
                         children.get(i-1).getType() == NodeType.LINK) {
                     root.appendText(children.get(i).getText());
+                    i++;
+                    //Since we found a text node after link start, check for more consecutive text nodes
+                    while(i < children.size() && children.get(i).getType() == NodeType.TEXT) {
+                        StringBuilder sb = new StringBuilder();
+                        root.appendText(sb.append(" ").append(children.get(i).getText()).toString());
+                        i++;
+                    }
                 }
             }
         }

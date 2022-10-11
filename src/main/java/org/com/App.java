@@ -8,8 +8,7 @@ package org.com;
 public class App  {
     public static void main( String[] args ) {
 
-            System.out.println( "Hello World!" );
-            MDRender render = new MDRender("src/mailchimpSampleTwo.md");
+            MDRender render = new MDRender("src/linkTest.md");
             render.render();
             HTMLGenerator generator = new HTMLGenerator(render.getMdNodes());
             generator.testHTML("appMain.html");

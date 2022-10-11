@@ -9,10 +9,10 @@ public class HTMLGeneratorTest {
     private String testFileThree = "src/mailchimpSampleOne.md";
     private String testFileFour = "src/mailchimpSampleTwo.md";
 
-    private String outputFileOne = "src/htmlTestOne.md";
-    private String outputFileTwo = "src/htmlTestTwo.md";
-    private String outputFileThree = "src/htmlTestThree.md";
-    private String outputFileFour = "src/htmlTestFour.md";
+    private String outputFileOne = "src/htmlTestOne.html";
+    private String outputFileTwo = "src/htmlTestTwo.html";
+    private String outputFileThree = "src/htmlTestThree.html";
+    private String outputFileFour = "src/htmlTestFour.html";
 
     private MDRender renderOne = new MDRender(testFileOne);
     private MDRender renderTwo = new MDRender(testFileTwo);
