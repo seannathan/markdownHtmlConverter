@@ -1,9 +1,9 @@
 #MarkdownHtmlConverter
 
 This is a markdown to HTML converter for the homework assignment. It utilizes a tree type structure
-and reads a markdown file and builds an n-ary tree based on the constraints provided in the assignment
+and reads a markdown file and builds the node tree based on the constraints provided in the assignment
 for generating HTML. From this tree, the HTMLGenerator traverses the tree and uses the Jsoup library
-to build HTML elements in order and saves the file
+to build HTML elements in order and saves the file.
 
 ##How to run
 1. Make sure you have Apache Maven installed on your machine
