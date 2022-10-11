@@ -38,7 +38,7 @@ public class HTMLGenerator {
      *
      * @param fileName
      */
-    public void testHTML(String fileName) {
+    public void writeHtml(String fileName) {
 
         try{
             final File f = new File(fileName);

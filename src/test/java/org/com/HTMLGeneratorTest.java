@@ -23,28 +23,28 @@ public class HTMLGeneratorTest {
     public void testFileOne() {
         renderOne.render();
         HTMLGenerator generatorOne = new HTMLGenerator(renderOne.getMdNodes());
-        generatorOne.testHTML(outputFileOne);
+        generatorOne.writeHtml(outputFileOne);
     }
 
     @Test
     public void testFileTwo() {
         renderTwo.render();
         HTMLGenerator generatorTwo = new HTMLGenerator(renderTwo.getMdNodes());
-        generatorTwo.testHTML(outputFileTwo);
+        generatorTwo.writeHtml(outputFileTwo);
     }
 
     @Test
     public void testFileThree() {
         renderThree.render();
         HTMLGenerator generatorThree = new HTMLGenerator(renderThree.getMdNodes());
-        generatorThree.testHTML(outputFileThree);
+        generatorThree.writeHtml(outputFileThree);
     }
 
     @Test
     public void testFileFour() {
         renderFour.render();
         HTMLGenerator generatorFour = new HTMLGenerator(renderFour.getMdNodes());
-        generatorFour.testHTML(outputFileFour);
+        generatorFour.writeHtml(outputFileFour);
     }
 
 

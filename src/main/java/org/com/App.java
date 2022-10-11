@@ -11,6 +11,6 @@ public class App  {
             MDRender render = new MDRender("src/linkTest.md");
             render.render();
             HTMLGenerator generator = new HTMLGenerator(render.getMdNodes());
-            generator.testHTML("appMain.html");
+            generator.writeHtml("appMain.html");
     }
 }
