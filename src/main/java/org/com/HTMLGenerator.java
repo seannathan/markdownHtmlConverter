@@ -93,7 +93,12 @@ public class HTMLGenerator {
                 StringBuilder sb = new StringBuilder();
 
                 while(i < size && (children.get(i).getType() == NodeType.TEXT)) {
-                    sb.append(children.get(i).getText()).append(" ");
+                    //Edge case for if the text node is the last node, don't add a space
+                    if(i == size-1) {
+                        sb.append(children.get(i).getText());
+                    } else {
+                        sb.append(children.get(i).getText()).append(" ");
+                    }
                     i++;
                 }
 
