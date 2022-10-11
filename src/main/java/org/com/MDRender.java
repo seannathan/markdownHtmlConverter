@@ -10,9 +10,9 @@ import org.com.util.Render;
 
 
 public class MDRender implements Render {
-    public List<Node> mdNodes = new ArrayList<>();
-    public List<String> data = new ArrayList<>();
-    public MDReader reader;
+    private List<Node> mdNodes = new ArrayList<>();
+    private List<String> data;
+    private MDReader reader;
     private static final int COUNT_HEADER_MAX = 6;
     //Pattern found using StackOverflow: https://stackoverflow.com/a/70326197
     private static final String REGEX_LINK = "\\[([^\\]]+)\\]\\(([^)]+)\\)";
@@ -35,17 +35,15 @@ public class MDRender implements Render {
     public List<Node> render() {
 
 
-        //check if header, paragraph or text;
+        //Check if header, paragraph or text;
         for(String line : data) {
             line.trim();
             Node current = checkLine(line);
             int contentStart = 0;
             if(current == null) {
                 current = generateParagraphNode();
-                System.out.println("Found paragraph");
-                System.out.println("Node type is: " + current.getType());
             }
-            //if null or link, add node
+            //If null or link, add node
             if(current.getType() == NodeType.NULL || current.getType() == NodeType.LINK) {
                 mdNodes.add(current);
                 continue;
@@ -54,7 +52,7 @@ public class MDRender implements Render {
             }
 
 
-            List<Node> children = findChildren(line.substring(contentStart, line.length()));
+            List<Node> children = findChildren(line.substring(contentStart));
             for(Node child : children) {
                 current.addChild(child);
             }
@@ -63,7 +61,6 @@ public class MDRender implements Render {
         }
 
         mdNodes = linkParagraphNodes();
-
         return mdNodes;
 
 
@@ -75,11 +72,11 @@ public class MDRender implements Render {
      *
      * @return List of nodes with all consecutive paragraph nodes linked
      */
-    public List<Node> linkParagraphNodes() {
+    private List<Node> linkParagraphNodes() {
         int currentIndex = 0;
         Node current = null;
         List<Node> newNodes = new ArrayList<>();
-        //Loop over all of the nodes and combine consecutive text nodes
+        //Loop over all nodes and combine consecutive text nodes
         while(currentIndex < mdNodes.size()) {
             if(mdNodes.get(currentIndex).getType() != NodeType.PARAGRAPH) {
                 if (current != null) {
@@ -168,7 +165,7 @@ public class MDRender implements Render {
      * @param line
      * @return Link node or null node
      */
-    public Node checkLink(String line) {
+    private Node checkLink(String line) {
         Matcher m = PATTERN_LINK.matcher(line);
         int numFound = 0;
         MatchResult res = null;
@@ -196,9 +193,6 @@ public class MDRender implements Render {
         Matcher m = PATTERN_HEADER.matcher(line);
 
         while(m.find()) {
-            System.out.println("Found Header");
-            System.out.println("The start is: " + m.start());
-            System.out.println("The end is: " + m.end());
             if(m.start() == 0 && m.end() - m.start() <= COUNT_HEADER_MAX) {
                 return new HeaderNode(NodeType.HEADER, m.end() - m.start());
             }
@@ -247,4 +241,9 @@ public class MDRender implements Render {
         return node;
 
     }
+
+    public List<Node> getMdNodes() {
+        return this.mdNodes;
+    }
+
 }

@@ -1,7 +1,6 @@
 package org.com;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import org.com.node.Node;
 import org.com.node.NodeType;
@@ -14,16 +13,13 @@ import java.util.List;
  */
 public class MDRenderTest
 {
-    /**
-     * Rigorous Test :-)
-     */
+
 
     private String linkMD = "[Mailchimp](www.mailchimp.com)";
     private String headerMD = "# This is a header";
     private String emptyMD = " ";
-    private String paragraphMD = "This is a paragraph.";
-    private String findChildrenMD = "This is a paragraph [This is inline link](www.mailchimp.com).";
-    private MDRender render = new MDRender("src/md_test_1.md");
+    private String findChildrenMD = "This is a paragraph [This is an inline link](www.mailchimp.com).";
+    private MDRender render = new MDRender("src/linkTest.md");
 
 
     @Test
@@ -46,9 +42,4 @@ public class MDRenderTest
 
     }
 
-    @Test
-    public void shouldAnswerWithTrue()
-    {
-        assertTrue( true );
-    }
 }

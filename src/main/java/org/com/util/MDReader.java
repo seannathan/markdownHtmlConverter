@@ -23,6 +23,12 @@ public class MDReader implements Reader {
         lines = read(file);
     }
 
+    /**
+     * Reads data from file line by line into list of String
+     *
+     * @param path
+     * @return List of string
+     */
     @Override
     public List<String> read(String path) {
         List<String> readList = new ArrayList<String>();

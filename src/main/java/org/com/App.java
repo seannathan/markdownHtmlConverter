@@ -9,9 +9,9 @@ public class App  {
     public static void main( String[] args ) {
 
             System.out.println( "Hello World!" );
-            MDRender render = new MDRender("src/md_test_1.md");
+            MDRender render = new MDRender("src/mailchimpSampleTwo.md");
             render.render();
-            HTMLGenerator generator = new HTMLGenerator(render.mdNodes);
-            generator.testHTML();
+            HTMLGenerator generator = new HTMLGenerator(render.getMdNodes());
+            generator.testHTML("appMain.html");
     }
 }

@@ -32,10 +32,16 @@ public class HTMLGenerator {
     /**
      * Runs html generation and writes to output file
      */
-    public void testHTML() {
+
+    /**
+     * Runs html generation and writes to output file
+     *
+     * @param fileName
+     */
+    public void testHTML(String fileName) {
 
         try{
-            final File f = new File("test.html");
+            final File f = new File(fileName);
             generateHTML(doc, nodes);
             FileUtils.writeStringToFile(f, doc.outerHtml());
         } catch (Exception e) {
@@ -51,7 +57,7 @@ public class HTMLGenerator {
      * @param doc
      * @param nodes
      */
-    public void generateHTML(Document doc, List<Node> nodes) {
+    private void generateHTML(Document doc, List<Node> nodes) {
         for (Node node : nodes) {
             Element e = convertNodeToHTML(node, null);
             doc.body().appendChild(e);
@@ -68,9 +74,9 @@ public class HTMLGenerator {
      *
      * @param node
      * @param root
-     * @return
+     * @return root Element
      */
-    public Element convertNodeToHTML(Node node, Element root) {
+    private Element convertNodeToHTML(Node node, Element root) {
         if (node.getType() == NodeType.HEADER) {
             root = new Element(MAP_HEADER.get(node.getLevel()));
             //We know header is just one line of data
@@ -85,10 +91,12 @@ public class HTMLGenerator {
             if(children.size() > 0 && children.get(0).getType() == NodeType.TEXT) {
                 int i = 0;
                 StringBuilder sb = new StringBuilder();
-                while(i < size && children.get(i).getType() == NodeType.TEXT) {
+
+                while(i < size && (children.get(i).getType() == NodeType.TEXT)) {
                     sb.append(children.get(i).getText());
                     i++;
                 }
+
                 root.text(sb.toString());
             }
 
@@ -113,6 +121,13 @@ public class HTMLGenerator {
                 //to nodes, so only recurse if the node is a fresh element type other than text
                 if(children.get(i).getType() != NodeType.TEXT) {
                     root.appendChild(convertNodeToHTML(children.get(i), null));
+                }
+
+                //Edge case where a paragraph contains a link and more text at the end
+                if(i > 0 && node.getType() == NodeType.PARAGRAPH &&
+                        children.get(i).getType() == NodeType.TEXT &&
+                        children.get(i-1).getType() == NodeType.LINK) {
+                    root.appendText(children.get(i).getText());
                 }
             }
         }

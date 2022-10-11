@@ -1,0 +1,10 @@
+<html>
+ <head></head>
+ <body>
+  <h1>Sample Document</h1>
+  <br>
+  <p>Hello!</p>
+  <br>
+  <p>This is sample markdown for the <a href="https://www.mailchimp.com">Mailchimp</a> homework assignment.</p>
+ </body>
+</html>
