@@ -31,10 +31,6 @@ public class HTMLGenerator {
 
     /**
      * Runs html generation and writes to output file
-     */
-
-    /**
-     * Runs html generation and writes to output file
      *
      * @param fileName
      */
