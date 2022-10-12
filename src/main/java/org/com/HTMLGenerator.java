@@ -140,6 +140,8 @@ public class HTMLGenerator {
                         root.appendText(sb.append(" ").append(children.get(i).getText()).toString());
                         i++;
                     }
+                    //BUG HERE TO EXPLAIN WITH MULTIPLE LINKS
+                    i--;
                 }
             }
         }
