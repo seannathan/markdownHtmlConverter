@@ -110,8 +110,6 @@ public class MDRender implements Render {
                 TextNode node = new TextNode(NodeType.TEXT, line.substring(startIndex, m.start()));
                 nodeList.add(node);
             }
-
-
             Node node = generateLinkNode(m.group(2), m.group(1));
 
             nodeList.add(node);
