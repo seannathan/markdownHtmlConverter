@@ -20,6 +20,7 @@ public class MDRenderTest
     private String emptyMD = " ";
     private String findChildrenMD = "This is a paragraph [This is an inline link](www.mailchimp.com).";
     private MDRender render = new MDRender("src/linkTest.md");
+    private int NUM_NODES_LINK_TEST = 13;
 
 
     @Test
@@ -40,6 +41,19 @@ public class MDRenderTest
        List<Node> nodes = render.findChildren(findChildrenMD);
        assertEquals(nodes.size(), 3);
 
+    }
+
+    @Test
+    public void testRender() {
+        render.render();
+        List<Node> nodes = render.getMdNodes();
+        Node paragraph = nodes.get(0);
+        System.out.println("Size is: " + paragraph.getChildren().size());
+        assertEquals(paragraph.getType(), NodeType.PARAGRAPH);
+        assertEquals(paragraph.getChildren().get(0).getType(), NodeType.LINK);
+        assertEquals(paragraph.getChildren().get(1).getType(), NodeType.TEXT);
+        assertEquals(paragraph.getChildren().get(2).getType(), NodeType.LINK);
+        assertEquals(nodes.size(), NUM_NODES_LINK_TEST);
     }
 
 }

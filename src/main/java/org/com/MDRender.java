@@ -33,8 +33,6 @@ public class MDRender implements Render {
      */
     @Override
     public List<Node> render() {
-
-
         //Check if header, paragraph or text;
         for(String line : data) {
             line.trim();
@@ -50,20 +48,14 @@ public class MDRender implements Render {
             } else if(current.getType() == NodeType.HEADER) {
                 contentStart = current.getLevel() + 1;
             }
-
-
             List<Node> children = findChildren(line.substring(contentStart));
             for(Node child : children) {
                 current.addChild(child);
             }
             mdNodes.add(current);
-
         }
-
         mdNodes = linkParagraphNodes();
         return mdNodes;
-
-
     }
 
     /**
@@ -93,9 +85,7 @@ public class MDRender implements Render {
                 }
             }
             currentIndex++;
-
         }
-
         if(current != null) {
             newNodes.add(current);
         }
@@ -151,7 +141,6 @@ public class MDRender implements Render {
         if(node != null) {
             return node;
         }
-
         node = checkLink(line);
         if(node != null) {
             return node;
@@ -171,10 +160,8 @@ public class MDRender implements Render {
         int numFound = 0;
         MatchResult res = null;
         while(m.find()) {
-
             numFound++;
             res = m.toMatchResult();
-
         }
         if(numFound == 1 && res.start() == 0 && res.end() == line.length()) {
             return generateLinkNode(res.group(2), res.group(1));
@@ -190,18 +177,13 @@ public class MDRender implements Render {
      * @return Node of type Header
      */
     private Node checkHeader(String line) {
-
         Matcher m = PATTERN_HEADER.matcher(line);
-
         while(m.find()) {
             if(m.start() == 0 && m.end() - m.start() <= COUNT_HEADER_MAX) {
                 return new HeaderNode(NodeType.HEADER, m.end() - m.start());
             }
-
         }
-
         return null;
-
     }
 
     /**
@@ -219,7 +201,7 @@ public class MDRender implements Render {
     }
 
     /**
-     * Creates a paragraph node
+     * Generates a paragraph node
      *
      * @return Node of type Paragraph
      */

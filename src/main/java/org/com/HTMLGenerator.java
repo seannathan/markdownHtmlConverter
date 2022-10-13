@@ -35,7 +35,6 @@ public class HTMLGenerator {
      * @param fileName
      */
     public void writeHtml(String fileName) {
-
         try{
             final File f = new File(fileName);
             generateHTML(doc, nodes);
@@ -43,7 +42,6 @@ public class HTMLGenerator {
         } catch (Exception e) {
             System.out.println("There was an exception that occurred");
         }
-
     }
 
     /**
@@ -58,9 +56,7 @@ public class HTMLGenerator {
             Element e = convertNodeToHTML(node, null);
             doc.body().appendChild(e);
         }
-
         System.out.println(doc.body());
-
     }
 
     /**
@@ -141,8 +137,6 @@ public class HTMLGenerator {
                 }
             }
         }
-
         return root;
-
     }
 }
